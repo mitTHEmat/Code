@@ -13,11 +13,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * Класс для парсинга по протоколу mr-231-3
+ */
 public class Mr231_3Converter implements SearadarExchangeConverter {
 
     private static final Double[] DISTANCE_SCALE = {0.125, 0.25, 0.5, 1.5, 3.0, 6.0, 12.0, 24.0, 48.0, 96.0};
 
     private String[] fields;
+    /**
+     * Поле для хранения контрольной суммы
+     */
     private String ctrlSum;
     private String msgType;
 
@@ -52,18 +58,28 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
         return msgList;
     }
 
-
+    /**
+     * Метод для разбиения исходной строки на части
+     * @param msg исходная строка
+     */
     private void readFields(String msg) {
 
         String temp = msg.substring( 3, msg.indexOf("*") ).trim();
 
         fields = temp.split(Pattern.quote(","));
+        /**
+         * Вытаскиваем значение контрольной суммы из строки (все что после "*")
+         */
 		ctrlSum = msg.substring( msg.indexOf("*") + 1 ).trim();
        
         msgType = fields[0];
 
     }
 
+    /**
+     * Класс, наследуемый от RadarSystemDataMessage
+     * Создан для реализации установки значения контрольной суммы и возможности вывода ее в результате на экран
+     */
 	public class RadarSystemDataMessage3 extends RadarSystemDataMessage {
 
 		private Integer controlSum;
@@ -98,7 +114,10 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
 
 	}
 
-
+    /**
+     * Класс, наследуемый от TrackedTargetMessage
+     * Создан для реализации установки значения интервала (period) и возможности вывода его в результате на экран
+     */
 	public class TrackedTargetMessage3 extends TrackedTargetMessage {
 
 		private Long period;
