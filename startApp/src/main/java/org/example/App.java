@@ -39,6 +39,9 @@ public class App {
         String mr231_RSD = "$RARSD,50.5,309.9,64.8,132.3,,,,,52.6,155.0,48.0,K,N,S*28";
 
         // Проверка работы конвертера
+        System.out.println("------------------");
+        System.out.println("mr-321 [CHECKING]");
+        System.out.println("------------------");
         Mr231StationType mr231 = new Mr231StationType();
         Mr231Converter converter = mr231.createConverter();
         List<SearadarStationMessage> searadarMessages = converter.convert(mr231_TTM);
@@ -50,19 +53,19 @@ public class App {
 
         // Контрольный пример для МР-231-3
         String mr231_3_TTM = "$RATTM,66,28.71,341.1,T,57.6,024.5,T,0.4,4.1,N,b,L,,457362,А*42";
-        // String mr231_3_VHW = "$RAVHW,115.6,T,,,46.0,N,,*71";
-        String mr231_3_RSD = "$RARSD,50.5,309.9,64.8,132.3,,,,,52.6,155.0,48.0,K,N,S*28";
+        String mr231_3_RSD = "$RARSD,36.5,331.4,8.4,320.6,,,,,11.6,185.3,96.0,N,N,S*33";
 
         // Проверка работы конвертера МР-231-3
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println("mr-321-3 [CHECKING]");
+        System.out.println("--------------------");
         Mr231_3StationType mr231_3 = new Mr231_3StationType();
         Mr231_3Converter converter_3 = mr231_3.createConverter();
-
-		System.out.println();
         List<SearadarStationMessage> searadarMessages_3 = converter_3.convert(mr231_3_TTM);
         searadarMessages_3.forEach(System.out::println);
-		System.out.println();
         searadarMessages_3 = converter_3.convert(mr231_3_RSD);
         searadarMessages_3.forEach(System.out::println);
-		System.out.println();System.out.println();
+
     }
 }
