@@ -66,6 +66,5 @@ public class App {
         searadarMessages_3.forEach(System.out::println);
         searadarMessages_3 = converter_3.convert(mr231_3_RSD);
         searadarMessages_3.forEach(System.out::println);
-
     }
 }

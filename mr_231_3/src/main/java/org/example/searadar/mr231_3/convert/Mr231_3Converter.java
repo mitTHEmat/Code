@@ -21,10 +21,7 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
     private static final Double[] DISTANCE_SCALE = {0.125, 0.25, 0.5, 1.5, 3.0, 6.0, 12.0, 24.0, 48.0, 96.0};
 
     private String[] fields;
-    /**
-     * Поле для хранения контрольной суммы
-     */
-    private String ctrlSum;
+    private String ctrlSum; // Поле для хранения контрольной суммы
     private String msgType;
 
     @Override
@@ -33,28 +30,24 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
     }
 
     public List<SearadarStationMessage> convert(String message) {
-
         List<SearadarStationMessage> msgList = new ArrayList<>();
-
         readFields(message);
 
         switch (msgType) {
-
             case "TTM" : msgList.add(getTTM());
                 break;
-
             case "RSD" : {
-
                 RadarSystemDataMessage rsd = getRSD();
                 InvalidMessage invalidMessage = checkRSD(rsd);
-
-                if (invalidMessage != null)  msgList.add(invalidMessage);
-                else msgList.add(rsd);
+                if (invalidMessage != null) {
+                    msgList.add(invalidMessage);
+                }
+                else {
+                    msgList.add(rsd);
+                }
                 break;
             }
-
         }
-
         return msgList;
     }
 
@@ -63,17 +56,10 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
      * @param msg исходная строка
      */
     private void readFields(String msg) {
-
         String temp = msg.substring( 3, msg.indexOf("*") ).trim();
-
         fields = temp.split(Pattern.quote(","));
-        /**
-         * Вытаскиваем значение контрольной суммы из строки (все что после "*")
-         */
-		ctrlSum = msg.substring( msg.indexOf("*") + 1 ).trim();
-       
+		ctrlSum = msg.substring( msg.indexOf("*") + 1 ).trim(); // Вытаскиваем значение контрольной суммы из строки (все что после "*")
         msgType = fields[0];
-
     }
 
     /**
@@ -84,7 +70,6 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
 
 		private Integer controlSum;
 
-
 		public Integer getControlSum() {
 			return controlSum;
 		}
@@ -92,7 +77,6 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
 		public void setControlSum(Integer controlSum) {
 			this.controlSum = controlSum;
 		}
-
 
 		@Override
     	public String toString() {
@@ -122,7 +106,6 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
 
 		private Long period;
 
-
 		public Long getPeriod() {
 			return period;
 		}
@@ -150,7 +133,6 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
 	}
 
     private TrackedTargetMessage getTTM() {
-        
         TrackedTargetMessage3 ttm3 = new TrackedTargetMessage3();
 
         Long msgRecTimeMillis = System.currentTimeMillis();
@@ -163,10 +145,8 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
         switch (fields[12]) {
             case "L" : status = TargetStatus.LOST;
                 break;
-
             case "Q" : status = TargetStatus.UNRELIABLE_DATA;
                 break;
-
             case "T" : status = TargetStatus.TRACKED;
                 break;
         }
@@ -174,10 +154,8 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
         switch (fields[11]) {
             case "b" : iff = IFF.FRIEND;
                 break;
-
             case "p" : iff = IFF.FOE;
                 break;
-
             case "d" : iff = IFF.UNKNOWN;
                 break;
         }
@@ -191,14 +169,12 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
         ttm3.setStatus(status);
         ttm3.setIff(iff);
 		ttm3.setPeriod(Long.parseLong(fields[14]));
-
         ttm3.setType(type);
 
         return ttm3;
     }
 
     private RadarSystemDataMessage3 getRSD() {
-
         RadarSystemDataMessage3 rsd3 = new RadarSystemDataMessage3();
 
         rsd3.setMsgRecTime(new Timestamp(System.currentTimeMillis()));
@@ -218,12 +194,10 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
     }
 
     private InvalidMessage checkRSD(RadarSystemDataMessage rsd) {
-
         InvalidMessage invalidMessage = new InvalidMessage();
         String infoMsg = "";
 
         if (!Arrays.asList(DISTANCE_SCALE).contains(rsd.getDistanceScale())) {
-
             infoMsg = "RSD message. Wrong distance scale value: " + rsd.getDistanceScale();
             invalidMessage.setInfoMsg(infoMsg);
             return invalidMessage;
@@ -231,5 +205,4 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
 
         return null;
     }
-
 }
