@@ -10,6 +10,13 @@
     <description>Interaction module with Radar MR-231 system</description>
 
     <dependencies>
+<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.10.2</version>
+    <scope>test</scope>
+</dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -45,6 +52,12 @@
             <version>1.0.0.Final</version>
         </dependency>
 
+    
+      <dependency>
+        <groupId>org.scala-lang</groupId>
+        <artifactId>scala-library</artifactId>
+        <version>2.13.0</version>
+      </dependency>
     </dependencies>
 
     <build>

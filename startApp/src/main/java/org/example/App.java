@@ -63,8 +63,9 @@ public class App {
         Mr231_3StationType mr231_3 = new Mr231_3StationType();
         Mr231_3Converter converter_3 = mr231_3.createConverter();
         List<SearadarStationMessage> searadarMessages_3 = converter_3.convert(mr231_3_TTM);
-        searadarMessages_3.forEach(System.out::println);
-        searadarMessages_3 = converter_3.convert(mr231_3_RSD);
-        searadarMessages_3.forEach(System.out::println);
+        System.err.println(searadarMessages_3);
+        //searadarMessages_3.forEach(System.out::println);
+        //searadarMessages_3 = converter_3.convert(mr231_3_RSD);
+        //searadarMessages_3.forEach(System.out::println);
     }
 }

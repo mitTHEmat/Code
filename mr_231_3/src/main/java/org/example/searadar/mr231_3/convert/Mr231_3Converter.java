@@ -168,7 +168,7 @@ public class Mr231_3Converter implements SearadarExchangeConverter {
         ttm3.setSpeed(Double.parseDouble(fields[5]));
         ttm3.setStatus(status);
         ttm3.setIff(iff);
-		ttm3.setPeriod(Long.parseLong(fields[14]));
+        ttm3.setPeriod(Long.valueOf(fields[14]));
         ttm3.setType(type);
 
         return ttm3;
